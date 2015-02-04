@@ -1,7 +1,7 @@
 #server.R
 
 library(shiny)
-source("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllDataManipulation_App.R")
+source("../AllDataManipulation_App.R")
 
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD1$vertical))
@@ -19,7 +19,7 @@ shinyServer(
       cat("\nBenchmark: ", input$benchmark)
       cat("\nSubmit: ", input$submit)
     
-
+View(input$client)
       
 # client <- input$client,
 #                  clients = client)
