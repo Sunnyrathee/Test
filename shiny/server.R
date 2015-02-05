@@ -18,12 +18,17 @@ shinyServer(
       cat("\nClient: ",input$client)
       cat("\nGoal: ",input$goal)
       cat("\nBenchmark: ", input$benchmark)
-      cat("\nSubmit: ", input$submit)
+
     
       source("/Users/brentducote/strategicinsights/AllDataManipulation_App.R")
+      
+      client <<- input$client
+      goal <<- input$goal
+     benchmark <<- input$benchmark
+     submit <<- input$submit
+            
 matrix(c(input$client, input$goal, input$benchmark, input$submit), ncol=4, byrow=FALSE)
-OverallTable
-
+CDFatBM
      })
   }
 )

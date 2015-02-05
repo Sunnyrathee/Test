@@ -3,6 +3,8 @@ print("sourcing alldatamanipulation...")
 
 AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
 
+AD <- AD[AD$client == client,]
+
 #variables 0s included (for rates)
 imps <- AD$impressions
 linkImps <- AD$impressions [AD$link == "1"]
@@ -49,7 +51,6 @@ withVsWithout <- function (dataCol) {
 
 # Inputs
 outputTable <- withVsWithout(AD$link)
-BM = 0.0084
 
 ##### PDF/CDF CREATION ######
 
@@ -93,20 +94,20 @@ cdfMatrixERWithout = convertPDFtoCDF(pdfMatrixERWithout)
 cdfMatrixERWith1 = floor(cdfMatrixERWith*10000)/10000
 cdfMatrixERWithout1 = floor(cdfMatrixERWithout*10000)/10000
 
-cdfERBMWith = cdfMatrixERWith1[,2][cdfMatrixERWith1[,1] == BM]
-cdfERBMWithout = cdfMatrixERWithout1[,2][cdfMatrixERWithout1[,1] == BM]
+cdfERBMWith = cdfMatrixERWith1[,2][cdfMatrixERWith1[,1] == abs(benchmark)]
+cdfERBMWithout = cdfMatrixERWithout1[,2][cdfMatrixERWithout1[,1] == abs(benchmark)]
 prob1With = (1- cdfERBMWith)
 prob1Without = (1-cdfERBMWithout)
 prob2With = prob1With*(1-as.numeric(outputTable[1,3]))
 prob2Without = prob1Without*(1-as.numeric(outputTable[2,3]))
 probPD = (prob2With-prob2Without)/((prob2With+prob2Without)/2)
-CDFatBM <- matrix(c(cdfERBMWith, cdfERBMWithout,"",prob1With,prob1Without,"",prob2With,prob2Without,probPD), ncol=3, nrow=3,byrow=FALSE)
+CDFatBM <- matrix(c(cdfERBMWith,cdfERBMWithout,"",prob1With,prob1Without,"",prob2With*100,prob2Without*100,probPD*100), ncol=3, nrow=3,byrow=FALSE)
 colnames(CDFatBM) <- c("CDF at Benchmark", "Probability >= to BM", "Probability >= BM *with zeroes")
 
 #####
 
 OverallTable <- cbind(outputTable,CDFatBM)
-
+View(OverallTable)
 #View(tableDump)
 
 
