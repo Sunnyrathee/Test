@@ -20,8 +20,10 @@ shinyServer(
       cat("\nBenchmark: ", input$benchmark)
       cat("\nSubmit: ", input$submit)
     
-
+      source("/Users/brentducote/strategicinsights/AllDataManipulation_App.R")
 matrix(c(input$client, input$goal, input$benchmark, input$submit), ncol=4, byrow=FALSE)
+OverallTable
+
      })
   }
 )

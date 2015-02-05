@@ -1,4 +1,6 @@
 #setwd("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis")
+print("sourcing alldatamanipulation...")
+
 AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
 
 #variables 0s included (for rates)
@@ -104,7 +106,7 @@ colnames(CDFatBM) <- c("CDF at Benchmark", "Probability >= to BM", "Probability 
 #####
 
 OverallTable <- cbind(outputTable,CDFatBM)
-View(OverallTable)
+
 #View(tableDump)
 
 
