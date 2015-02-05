@@ -4,7 +4,7 @@ library(shiny)
 source("../AllDataManipulation_App.R")
 
 clients <- as.matrix(unique(AD$client))
-verticals <- as.matrix(unique(AD1$vertical))
+verticals <- as.matrix(unique(AD$vertical))
 
 # This code is run once
 shinyServer(
@@ -19,14 +19,15 @@ shinyServer(
       cat("\nBenchmark: ", input$benchmark)
       cat("\nSubmit: ", input$submit)
     
-View(input$client)
-      
-# client <- input$client,
-#                  clients = client)
+
+matrix(c(input$client, input$goal, input$benchmark, input$submit), ncol=4, byrow=FALSE)
+
+
 
 
      })
   }
+
 )
 
  

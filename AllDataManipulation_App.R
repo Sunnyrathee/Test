@@ -11,8 +11,6 @@ clicks <- AD$url.clicks
 engmnt <- clicks + favs + replies + RTs
 overallER <- sum(engmnt)/sum(imps)
 
-# Inputs
-
 
 # User defined function to generate graph
 withVsWithout <- function (dataCol) {  
@@ -47,9 +45,9 @@ withVsWithout <- function (dataCol) {
   return(outputTable)
 }
 
-
+# Inputs
 outputTable <- withVsWithout(AD$link)
-BM = 0.0072
+BM = 0.0084
 
 ##### PDF/CDF CREATION ######
 

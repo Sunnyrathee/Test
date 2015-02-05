@@ -1,6 +1,6 @@
 # ui.R
 clients <- as.matrix(unique(AD$client))
-verticals <- as.matrix(unique(AD1$vertical))
+verticals <- as.matrix(unique(AD$vertical))
 shinyUI(fluidPage(
   titlePanel("Insightpool SI tool (by Client)"),
   
