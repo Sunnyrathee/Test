@@ -1,5 +1,5 @@
-setwd("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis")
-AD <- read.csv("AllData_Worksheet.csv", header=TRUE)
+#setwd("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis")
+AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
 
 #variables 0s included (for rates)
 imps <- AD$impressions

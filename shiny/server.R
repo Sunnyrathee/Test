@@ -1,7 +1,8 @@
 #server.R
 
 library(shiny)
-source("../AllDataManipulation_App.R")
+source("/Users/brentducote/strategicinsights/AllDataManipulation_App.R")
+
 
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD$vertical))
@@ -21,13 +22,8 @@ shinyServer(
     
 
 matrix(c(input$client, input$goal, input$benchmark, input$submit), ncol=4, byrow=FALSE)
-
-
-
-
      })
   }
-
 )
 
  

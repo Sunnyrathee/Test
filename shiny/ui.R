@@ -1,4 +1,8 @@
 # ui.R
+
+AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
+BM = 0.0084
+
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD$vertical))
 shinyUI(fluidPage(
