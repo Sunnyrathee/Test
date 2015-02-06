@@ -2,8 +2,8 @@
 print("sourcing alldatamanipulation...")
 
 AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
-
 AD <- AD[AD$client == client,]
+
 
 #variables 0s included (for rates)
 imps <- AD$impressions
@@ -15,42 +15,86 @@ clicks <- AD$url.clicks
 engmnt <- clicks + favs + replies + RTs
 overallER <- sum(engmnt)/sum(imps)
 
+tests = colnames(AD[13:26])
 
-# User defined function to generate graph
-withVsWithout <- function (dataCol) {  
+# goal = "CTR"
+
+# ER test
+if (goal == "Engagement Rate"){
+  cat("TRUE");
+  withVsWithout <- function (dataCol) {  
     
-
-  withX= (RTs[dataCol == 1] + replies[dataCol == 1] + favs[dataCol == 1] + clicks[dataCol == 1]) / imps[dataCol == 1]
-  withX[imps[dataCol==1]==0] <- NA
-  withX <- na.omit(withX)
+    withX= (RTs[dataCol == 1] + replies[dataCol == 1] + favs[dataCol == 1] + clicks[dataCol == 1]) / imps[dataCol == 1]
+    withX[imps[dataCol==1]==0] <- NA
+    withX <- na.omit(withX)
+    
+    withoutX= (RTs[dataCol == 0] + replies[dataCol == 0] + favs[dataCol == 0] + clicks[dataCol == 0]) / imps[dataCol == 0]
+    withoutX[imps[dataCol==0]==0] <- NA
+    withoutX <- na.omit(withoutX)
+    
+    WithXGlobal <<- withX
+    WithoutXGlobal <<- withoutX
+    
+    meanWithX = (sum(RTs[dataCol == "1"], na.rm = TRUE) + sum(replies[dataCol == "1"], na.rm = TRUE) + sum(favs[dataCol == "1"], na.rm = TRUE) + sum(clicks[dataCol == "1"], na.rm = TRUE)) / sum(imps[dataCol == "1"], na.rm = TRUE)
+    withXsd = sd(withX)
+    
+    meanWithoutX = (sum(RTs[dataCol == "0"], na.rm = TRUE) + sum(replies[dataCol == "0"], na.rm = TRUE) + sum(favs[dataCol == "0"], na.rm = TRUE) + sum(clicks[dataCol == "0"], na.rm = TRUE)) / sum(imps[dataCol == "0"], na.rm = TRUE)
+    withoutXsd = sd(withoutX)
+    
+    zero1<<- length(WithXGlobal[WithXGlobal==0])/length(WithXGlobal)
+    zero2<<- length(WithoutXGlobal[WithoutXGlobal==0])/length(WithoutXGlobal)
+    
+    Xpd = abs(meanWithX-meanWithoutX)/((meanWithX+meanWithoutX)/2)
+    
+    outputTable <- matrix(c(meanWithX,withXsd,zero1,meanWithoutX,withoutXsd,zero2,Xpd,"",""),ncol=3,byrow=TRUE)
+    colnames(outputTable) <- c("Engagement Rate", "Std. Dev", "% of Zeroes")
+    rownames(outputTable) <- c("With", "Without","Percent Difference")
+    
+    return(outputTable)
+  }
   
-  withoutX= (RTs[dataCol == 0] + replies[dataCol == 0] + favs[dataCol == 0] + clicks[dataCol == 0]) / imps[dataCol == 0]
-  withoutX[imps[dataCol==0]==0] <- NA
-  withoutX <- na.omit(withoutX)
-  
-  WithXGlobal <<- withX
-  WithoutXGlobal <<- withoutX
-  
-  meanWithX = (sum(RTs[dataCol == "1"], na.rm = TRUE) + sum(replies[dataCol == "1"], na.rm = TRUE) + sum(favs[dataCol == "1"], na.rm = TRUE) + sum(clicks[dataCol == "1"], na.rm = TRUE)) / sum(imps[dataCol == "1"], na.rm = TRUE)
-  withXsd = sd(withX)
-  
-  meanWithoutX = (sum(RTs[dataCol == "0"], na.rm = TRUE) + sum(replies[dataCol == "0"], na.rm = TRUE) + sum(favs[dataCol == "0"], na.rm = TRUE) + sum(clicks[dataCol == "0"], na.rm = TRUE)) / sum(imps[dataCol == "0"], na.rm = TRUE)
-  withoutXsd = sd(withoutX)
-  
-  zero1<<- length(WithXGlobal[WithXGlobal==0])/length(WithXGlobal)
-  zero2<<- length(WithoutXGlobal[WithoutXGlobal==0])/length(WithoutXGlobal)
-  
-  Xpd = abs(meanWithX-meanWithoutX)/((meanWithX+meanWithoutX)/2)
-  
-  outputTable <- matrix(c(meanWithX,withXsd,zero1,meanWithoutX,withoutXsd,zero2,Xpd,"",""),ncol=3,byrow=TRUE)
-  colnames(outputTable) <- c("Engagement Rate", "Std. Dev", "% of Zeroes")
-  rownames(outputTable) <- c("With", "Without","Percent Difference")
-  
-  return(outputTable)
+# Input ER
+  outputTable <- withVsWithout(AD$link);
 }
 
-# Inputs
-outputTable <- withVsWithout(AD$link)
+# CTR test
+if (goal == "CTR"){
+  cat("TRUE")
+  withVsWithoutCTR <- function (dataCol) {  
+    withX= clicks[dataCol == 1]/ linkImps[dataCol == 1]
+    withX[linkImps[dataCol==1]==0] <- NA
+    withX <- na.omit(withX)
+    
+    withoutX= clicks[dataCol == 0] / linkImps[dataCol == 0]
+    withoutX[linkImps[dataCol==0]==0] <- NA
+    withoutX <- na.omit(withoutX)
+    
+    WithXGlobal <<- withX
+    WithoutXGlobal <<- withoutX
+    
+    meanWithX = sum(clicks[dataCol == "1"], na.rm = TRUE) / sum(na.omit(linkImps[dataCol == "1"], na.rm = TRUE))
+    withXsd = sd(withX)
+    
+    meanWithoutX = sum(clicks[dataCol == "0"], na.rm = TRUE) / sum(na.omit(linkImps[dataCol == "0"], na.rm = TRUE))
+    withoutXsd = sd(withoutX)
+    
+    zero1<<- length(WithXGlobal[WithXGlobal==0])/length(WithXGlobal)
+    zero2<<- length(WithoutXGlobal[WithoutXGlobal==0])/length(WithoutXGlobal)
+    
+    Xpd = abs(meanWithX-meanWithoutX)/((meanWithX+meanWithoutX)/2)
+    
+    outputTable <- matrix(c(meanWithX,withXsd,zero1,meanWithoutX,withoutXsd,zero2,Xpd,"",""),ncol=3,byrow=TRUE)
+    colnames(outputTable) <- c("CTR", "Std. Dev", "% of Zeroes")
+    rownames(outputTable) <- c("With", "Without","Percent Difference")
+    
+    return(outputTable)
+  }
+  
+  # Inputs CTR
+  outputTable <- withVsWithoutCTR(AD$link);
+  withVsWithoutCTR(AD$link);
+} 
+ 
 
 ##### PDF/CDF CREATION ######
 
@@ -101,10 +145,23 @@ prob1Without = (1-cdfERBMWithout)
 prob2With = prob1With*(1-as.numeric(outputTable[1,3]))
 prob2Without = prob1Without*(1-as.numeric(outputTable[2,3]))
 probPD = (prob2With-prob2Without)/((prob2With+prob2Without)/2)
-CDFatBM <- matrix(c(cdfERBMWith,cdfERBMWithout,"",prob1With,prob1Without,"",prob2With*100,prob2Without*100,probPD*100), ncol=3, nrow=3,byrow=FALSE)
+
+prob2With1 = round(prob2With*100,2)
+prob2Without1 = round(prob2Without*100,2)
+probPD1 = round(probPD*100,2)
+
+CDFatBM <- matrix(c(cdfERBMWith,cdfERBMWithout,"",prob1With,prob1Without,"",prob2With1,prob2Without1,probPD1), ncol=3, nrow=3,byrow=FALSE)
+
 CDFatBMapp <- CDFatBM[,3]
 CDFatBMapp <- cbind(c("With","Without","% diff"),c("","",""), CDFatBMapp)
-colnames(CDFatBMapp) <- c("TEST NAME","Y/N", "CDF")
+YN <- ifelse(CDFatBMapp[1,3]>CDFatBMapp[2,3],"Y","N")
+NY <- ifelse(CDFatBMapp[2,3]>CDFatBMapp[1,3],"Y","N")
+CDFatBMapp[1,2] <- YN
+CDFatBMapp[2,2] <- NY
+CDFatBMapp[3,2] <- "---"
+colnames(CDFatBMapp) <- c("TEST NAME","Y/N", "CDF (%)")
+
+
 colnames(CDFatBM) <- c("CDF at Benchmark", "Probability >= to BM", "Probability >= BM *with zeroes")
 
 #####

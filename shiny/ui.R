@@ -35,7 +35,7 @@ shinyUI(fluidPage(
                    label = "Enter benchmark",
                    value = .0084, step = .001),
       
-      actionButton("submit", label = "submit")
+      actionButton("submit", label = "Submit")
 
        ),
     
