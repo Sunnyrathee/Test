@@ -102,6 +102,9 @@ prob2With = prob1With*(1-as.numeric(outputTable[1,3]))
 prob2Without = prob1Without*(1-as.numeric(outputTable[2,3]))
 probPD = (prob2With-prob2Without)/((prob2With+prob2Without)/2)
 CDFatBM <- matrix(c(cdfERBMWith,cdfERBMWithout,"",prob1With,prob1Without,"",prob2With*100,prob2Without*100,probPD*100), ncol=3, nrow=3,byrow=FALSE)
+CDFatBMapp <- CDFatBM[,3]
+CDFatBMapp <- cbind(c("With","Without","% diff"),c("","",""), CDFatBMapp)
+colnames(CDFatBMapp) <- c("TEST NAME","Y/N", "CDF")
 colnames(CDFatBM) <- c("CDF at Benchmark", "Probability >= to BM", "Probability >= BM *with zeroes")
 
 #####
