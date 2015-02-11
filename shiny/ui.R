@@ -3,7 +3,9 @@
 AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
 #BM <- .0084
 
+
 clients <- as.matrix(unique(AD$client))
+clients <- sort(clients)
 verticals <- as.matrix(unique(AD$vertical))
 imps <- AD$impressions
 linkImps <- AD$impressions [AD$link == "1"]
@@ -13,6 +15,7 @@ favs <- AD$favorites
 clicks <- AD$url.clicks
 engmnt <- clicks + favs + replies + RTs
 overallER <- sum(engmnt)/sum(imps)
+overallCTR <- sum(clicks)/sum(linkImps)
 
 shinyUI(fluidPage(
   titlePanel("Insightpool SI tool (by Client)"),
@@ -23,22 +26,31 @@ shinyUI(fluidPage(
     
       selectInput("client", 
                   label = "Choose client",
-                  choices = clients,
+                  choices = sort(clients),
                   selected = clients[1]),
   
       selectInput("goal", 
                   label = "Choose goal",
                   choices = c("", "Engagement Rate", "CTR"),
-                  selected = ""),
+                  selected = "Engagement Rate"),
             
       numericInput("benchmark", 
                    label = "Enter benchmark",
                    value = .0084, step = .001),
       
-      actionButton("submit", label = "Submit")
-
+      #submitButton("submit")
+      actionButton("submit", label = "Submit, yo")
+            
        ),
     
-    mainPanel(tableOutput("table"))
+    mainPanel(
+  
+   
+      tableOutput("table"),
+      tableOutput("refTable")
+      
+      
+      
+            )
   )
 ))
