@@ -4,7 +4,7 @@ print("sourcing alldatamanipulation...")
 AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD$vertical))
-
+benchmark = 0
 
 if(exists("client", envir = .GlobalEnv)) {
   client <- get("client", envir = .GlobalEnv)
@@ -26,7 +26,7 @@ if(exists("goal", envir = .GlobalEnv)) {
 
 #variables 0s included (for rates)
 imps <- AD$impressions
-linkImps <- AD$impressions [AD$link == "1"]
+linkImps <- AD$impressions
 RTs <- AD$retweets
 replies <- AD$replies
 favs <- AD$favorites
@@ -49,7 +49,7 @@ verticals <- as.matrix(unique(AD$vertical))
 
 # goal = "Engagement Rate"
 # client= "Leviton"
-benchmark = .0085
+# benchmark = .0085
 
 
 TEST_START_INDEX = 12
@@ -101,8 +101,8 @@ for (loopIndex in seq(from = TEST_START_INDEX, length.out = length(tests), by = 
   outputTable <- withVsWithout(AD[,loopIndex])
   cat("\n1")
   calculatePDF <- function(arrayOfValues) {
-    interval = .005
-    list = seq(0,.3,interval)
+    interval = .0001
+    list = seq(0,.05,interval)
     cat("\n2")  
     PDFmatrix = matrix(ncol=2,nrow=length(list)-1)
     PDFmatrix[,1] = list[1:length(list)-1]
@@ -141,7 +141,7 @@ for (loopIndex in seq(from = TEST_START_INDEX, length.out = length(tests), by = 
   cdfMatrixERWith1 = floor(cdfMatrixERWith*10000)/10000
   cdfMatrixERWithout1 = floor(cdfMatrixERWithout*10000)/10000
   cat("\n9")
-  cdfERBMWith = cdfMatrixERWith1[,2][cdfMatrixERWith1[,1] == abs(benchmark)]
+  cdfERBMWith = cdfMatrixERWith1[cdfMatrixERWith1[,1] == abs(benchmark),2]
   cdfERBMWithout = cdfMatrixERWithout1[,2][cdfMatrixERWithout1[,1] == abs(benchmark)]
   prob1With = (1- cdfERBMWith)
   prob1Without = (1-cdfERBMWithout)
@@ -219,7 +219,7 @@ if (exists("goal") && goal == "CTR"){
 
 calculatePDF <- function(arrayOfValues) {
   interval = .0001
-  list = seq(0,.3,interval)
+  list = seq(0,.05,interval)
   
   PDFmatrix = matrix(ncol=2,nrow=length(list)-1)
   PDFmatrix[,1] = list[1:length(list)-1]

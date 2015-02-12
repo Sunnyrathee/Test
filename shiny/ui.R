@@ -36,7 +36,7 @@ shinyUI(fluidPage(
             
       numericInput("benchmark", 
                    label = "Enter benchmark",
-                   value = .0084, step = .001),
+                   value = "", step = .001),
       
       #submitButton("submit")
       actionButton("submit", label = "Submit, yo")
