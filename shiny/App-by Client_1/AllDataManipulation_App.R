@@ -99,21 +99,21 @@ rowIndex = 1
 
 for (loopIndex in seq(from = TEST_START_INDEX, length.out = length(tests), by = 1)) {     
   outputTable <- withVsWithout(AD[,loopIndex])
-  cat("\n1")
+
   calculatePDF <- function(arrayOfValues) {
     interval = .0001
     list = seq(0,.05,interval)
-    cat("\n2")  
+  
     PDFmatrix = matrix(ncol=2,nrow=length(list)-1)
     PDFmatrix[,1] = list[1:length(list)-1]
     PDFmatrix[,2] = 0
     for (index in 2:length(list)) {
       preValue = list[index-1]
       currentValue = list[index]
-      cat("\n3") 
+     
       #PDF
       PDF =  length(arrayOfValues[arrayOfValues > preValue & arrayOfValues <= currentValue])/length(arrayOfValues[arrayOfValues>0])
-      cat("\n4") 
+     
       PDFmatrix[index-1,2] = PDF
       
     }
@@ -124,23 +124,23 @@ for (loopIndex in seq(from = TEST_START_INDEX, length.out = length(tests), by = 
     cdfMatrix = matrix(ncol = 2, nrow = length(pdfMatrix[,1]))
     cdfMatrix[,1] = pdfMatrix[,1]
     summation = 0
-    cat("\n5") 
+   
     for (index in 1:length(pdfMatrix[,1])) {
       summation = summation + pdfMatrix[index,2]
       cdfMatrix[index,2] = summation
     }
-    cat("\n6") 
+    
     return(cdfMatrix)
   } 
-  cat("\n7") 
+
   pdfMatrixERWith = calculatePDF(WithXGlobal)
   cdfMatrixERWith = convertPDFtoCDF(pdfMatrixERWith)
   pdfMatrixERWithout = calculatePDF(WithoutXGlobal)
   cdfMatrixERWithout = convertPDFtoCDF(pdfMatrixERWithout)
-  cat("\n8")
+ 
   cdfMatrixERWith1 = floor(cdfMatrixERWith*10000)/10000
   cdfMatrixERWithout1 = floor(cdfMatrixERWithout*10000)/10000
-  cat("\n9")
+
   cdfERBMWith = cdfMatrixERWith1[cdfMatrixERWith1[,1] == abs(benchmark),2]
   cdfERBMWithout = cdfMatrixERWithout1[,2][cdfMatrixERWithout1[,1] == abs(benchmark)]
   prob1With = (1- cdfERBMWith)
@@ -148,11 +148,11 @@ for (loopIndex in seq(from = TEST_START_INDEX, length.out = length(tests), by = 
   prob2With = prob1With*(1-as.numeric(outputTable[1,3]))
   prob2Without = prob1Without*(1-as.numeric(outputTable[2,3]))
   probPD = (prob2With-prob2Without)/((prob2With+prob2Without)/2)
-  cat("\n10")
+  
   prob2With1 = round(prob2With*100,2)
   prob2Without1 = round(prob2Without*100,2)
   probPD1 = round(probPD*100,2)
-  cat("\n11")
+  
   outputMatrix[rowIndex,2] = prob2With1
   outputMatrix[rowIndex,3] = prob2Without1
   outputMatrix[rowIndex,4] = probPD1
