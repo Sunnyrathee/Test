@@ -22,12 +22,12 @@ shinyUI(fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      helpText("Enter in the appropriate information below:"),
+      helpText("Enter in the appropriate information below. The chart to the right will display the probability of meeting or exceeding the specified benchmark:"),
     
       selectInput("client", 
                   label = "Choose client",
-                  choices = sort(clients),
-                  selected = clients[1]),
+                  choices = c(sort(clients), "OVERALL"),
+                  selected = clients[2]),
   
       selectInput("goal", 
                   label = "Choose goal",
@@ -36,10 +36,10 @@ shinyUI(fluidPage(
             
       numericInput("benchmark", 
                    label = "Enter benchmark",
-                   value = "", step = .001),
+                   value = .0085, step = .001),
       
-      #submitButton("submit")
-      actionButton("submit", label = "Submit, yo")
+      submitButton("submit")
+      #actionButton("submit", label = "Submit, yo")
             
        ),
     
@@ -48,8 +48,7 @@ shinyUI(fluidPage(
    
       tableOutput("table"),
       tableOutput("refTable")
-      
-      
+            
       
             )
   )

@@ -7,7 +7,7 @@ verticals <- as.matrix(unique(AD$vertical))
 
 # goal = "CTR"
 # vertical = "OVERALL"
-# benchmark = .0085\
+# benchmark = .0085
 doallthecrap <- function(vertical, goal, benchmark) {
   if (vertical == "OVERALL"){
     cat("\nOverall selected")
@@ -262,24 +262,42 @@ doallthecrap <- function(vertical, goal, benchmark) {
   #   
   
   # colnames(CDFatBM) <- c("CDF at Benchmark", "Probability >= to BM", "Probability >= BM *with zeroes")
-  
-  }
-  }
-  
-  
-  b2cCTR = ".0048"
-  b2cER = .0084
-  b2bCTR = .0041
-  b2bER = .0083
-  mediaCTR = .0048
-  mediaER = .0073
-  sportsCTR = .0040
-  sportsER = .0072
-  
-  
-  refMatrix = matrix(c(b2cCTR,b2cER,b2bCTR,b2bER,mediaCTR,mediaER,sportsCTR,sportsER), ncol= 2, nrow=4)
-  colnames(refMatrix) = c("CTR", "Engagement Rate")
-  rownames(refMatrix) = c("B2B", "B2C", "Media", "Sports")
-  return(outputMatrix)
-}
 
+  }
+ }
+  
+
+ return(outputMatrix)
+ }
+
+refTableFun <- function (){
+#variables 0s included (for rates)
+imps <- AD$impressions
+linkImps <- AD$impressions
+RTs <- AD$retweets
+replies <- AD$replies
+favs <- AD$favorites
+clicks <- AD$url.clicks
+engmnt <- clicks + favs + replies + RTs
+overallER <- sum(engmnt, na.rm = TRUE)/sum(imps, na.rm = TRUE)
+overallCTR <- sum(clicks, na.rm = TRUE)/sum(linkImps, na.rm = TRUE)
+
+b2cCTR = sum(clicks[AD$vertical == "B2C"], na.rm = TRUE) / sum(imps[AD$vertical == "B2C"], na.rm = TRUE)
+b2cER = sum(sum(clicks[AD$vertical == "B2C"], na.rm = TRUE) + sum(RTs[AD$vertical == "B2C"], na.rm = TRUE) + sum(replies[AD$vertical == "B2C"], na.rm = TRUE) + sum(favs[AD$vertical == "B2C"], na.rm = TRUE)) / sum(imps[AD$vertical == "B2C"], na.rm = TRUE)
+b2bCTR = sum(clicks[AD$vertical == "B2B"], na.rm = TRUE) / sum(imps[AD$vertical == "B2B"], na.rm = TRUE)
+b2bER = sum(sum(clicks[AD$vertical == "B2B"], na.rm = TRUE) + sum(RTs[AD$vertical == "B2B"], na.rm = TRUE) + sum(replies[AD$vertical == "B2B"], na.rm = TRUE) + sum(favs[AD$vertical == "B2B"], na.rm = TRUE)) / sum(imps[AD$vertical == "B2B"], na.rm = TRUE)
+mediaCTR = sum(clicks[AD$vertical == "Media"], na.rm = TRUE) / sum(imps[AD$vertical == "Media"], na.rm = TRUE)
+mediaER = sum(sum(clicks[AD$vertical == "Media"], na.rm = TRUE) + sum(RTs[AD$vertical == "Media"], na.rm = TRUE) + sum(replies[AD$vertical == "Media"], na.rm = TRUE) + sum(favs[AD$vertical == "Media"], na.rm = TRUE)) / sum(imps[AD$vertical == "Media"], na.rm = TRUE)
+sportsCTR = sum(clicks[AD$vertical == "Sports"], na.rm = TRUE) / sum(imps[AD$vertical == "Sports"], na.rm = TRUE)
+sportsER = sum(sum(clicks[AD$vertical == "Sports"], na.rm = TRUE) + sum(RTs[AD$vertical == "Sports"], na.rm = TRUE) + sum(replies[AD$vertical == "Sports"], na.rm = TRUE) + sum(favs[AD$vertical == "Sports"], na.rm = TRUE)) / sum(imps[AD$vertical == "Sports"], na.rm = TRUE)
+overallCTR = sum(clicks)/sum(imps)
+overallCTR <- sum(clicks, na.rm = TRUE)/sum(linkImps, na.rm = TRUE)
+overallER <- sum(engmnt, na.rm = TRUE)/sum(imps, na.rm = TRUE)
+
+
+refMatrix <- matrix(c(round(b2cCTR*100,4),round(b2cER*100,4),round(b2bCTR*100,4),round(b2bER*100,4),round(mediaCTR*100,4),round(mediaER*100,4),round(sportsCTR*100,4),round(sportsER*100,4),round(overallCTR*100,4),round(overallER*100,4)), ncol= 2, nrow=5,byrow = TRUE)
+colnames(refMatrix) = c("CTR (%)", "ER (%)")
+rownames(refMatrix) = c("B2C", "B2B", "Media", "Sports", "OVERALL")
+
+return(refMatrix)
+}

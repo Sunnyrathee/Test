@@ -22,8 +22,14 @@ shinyServer(
       outputMatrix <- doallthecrap(input$vertical, input$goal, input$benchmark)
       cat("\n------------------END--------------------") 
       outputMatrix
+    
     })
-    output$refTable <- renderTable({refMatrix})
+    output$refTable <- renderTable({
+      
+      refMatrix <- refTableFun()
+      refMatrix
+      
+    })
             
  }
 )
