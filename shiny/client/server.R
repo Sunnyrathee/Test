@@ -1,5 +1,5 @@
 library(shiny)
-source("../AllDataManipulation_App.R")
+source("AllDataManipulation_App.R")
 
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD$vertical))
