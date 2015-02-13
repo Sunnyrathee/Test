@@ -1,5 +1,5 @@
 #setwd("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis")
-AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
+AD <- read.csv("../AllData_Worksheet.csv", header=TRUE)
 clients <- as.matrix(unique(AD$client))
 verticals <- as.matrix(unique(AD$vertical))
 
@@ -11,7 +11,7 @@ verticals <- as.matrix(unique(AD$vertical))
 doallthecrap <- function(vertical, goal, benchmark) {
   if (vertical == "OVERALL"){
     cat("\nOverall selected")
-    AD <- read.csv("/Users/brentducote/Dropbox/Strategic Insights/R Directory/Copy Analysis/AllData_Worksheet.csv", header=TRUE)
+    AD <- read.csv("../AllData_Worksheet.csv", header=TRUE)
   }else{
     AD <- AD[AD$vertical == vertical,]
   }
