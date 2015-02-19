@@ -1,7 +1,7 @@
 library(shiny)
 source("reporttemplate.R")
 cat("\nhere 1")
-options(shiny.maxRequestSize=150*1024^2)
+options(shiny.maxRequestSize=500*1024^2)
 shinyServer(function(input, output) {
   cat("\nhere 2")
   output$outputtable1 <- renderTable({
