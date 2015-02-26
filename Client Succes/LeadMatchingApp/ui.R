@@ -9,7 +9,7 @@ shinyUI(fluidPage(
                          'text/comma-separated-values',
                          'text/plain', 
                          '.csv')),
-      helpText("Files must be uploaded with headers that say Something"),
+      helpText("Files must be uploaded with headers that say Engaged, Graph, and Leads. Any other headers will not work."),
       tags$hr(),
       checkboxInput('header', 'Header', TRUE),
       radioButtons('sep', 'Separator',
