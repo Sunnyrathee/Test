@@ -1,14 +1,15 @@
 library(stringr)
 
 leadMatch <- function(input) {
+  LM <- input
   cat("\n\tin function1 : ")
-  stripEngaged <- str_replace_all(input$Engaged, "[^[:alnum:]]", "") 
+  stripEngaged <- str_replace_all(LM$Engaged, "[^[:alnum:]]", "") 
   engaged<- tolower(stripEngaged) 
   cat("\n\tin function2 : ")
-  stripGraph <- str_replace_all(input$Graph, "[^[:alnum:]]", "")
+  stripGraph <- str_replace_all(LM$Graph, "[^[:alnum:]]", "")
   graph<- tolower(stripGraph)
   cat("\n\tin function3 : ")
-  stripLeads <- str_replace_all(input$Leads, "[^[:alnum:]]", "") 
+  stripLeads <- str_replace_all(LM$Leads, "[^[:alnum:]]", "") 
   leads <- tolower(stripLeads)
   cat("\n\tin function4 : ")
   # match

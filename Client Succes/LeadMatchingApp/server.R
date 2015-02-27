@@ -10,7 +10,8 @@ shinyServer(function(input, output) {
       
       if (is.null(infile))
         return(NULL)
-      outputtable1 <- leadMatch(infile)
-      return(total1)
+      something <- read.csv(infile$datapath, header=TRUE)
+      outputtable1 <- leadMatch(something)
+      outputtable1
   })
 })
