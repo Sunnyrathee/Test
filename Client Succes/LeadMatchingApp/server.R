@@ -7,11 +7,21 @@ shinyServer(function(input, output) {
   output$outputtable1 <- renderTable({
     cat("\nhere 3")
       infile <- input$file1
-      
       if (is.null(infile))
         return(NULL)
-      something <- read.csv(infile$datapath, header=TRUE)
-      outputtable1 <- leadMatch(something)
+      something1 <- read.csv(infile$datapath, header=TRUE)
+      outputtable1 <- leadMatch(something1)
       outputtable1
   })
+  output$downloadData <- downloadHandler(
+    filename = "leadmatch.csv",
+    content = function(file) {
+      infile <- input$file1
+      if (is.null(infile))
+        return(NULL)
+      something1 <- read.csv(infile$datapath, header=TRUE)
+      outputtable1 <- leadMatch(something1)
+      outputtable1
+      write.csv(outputtable1, file)
+    })
 })

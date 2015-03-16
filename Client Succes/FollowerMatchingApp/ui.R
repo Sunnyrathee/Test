@@ -1,15 +1,20 @@
 library(shiny)
-shiny.maxRequestSize=30*1024^2
+shiny.maxRequestSize=300*1024^2
 shinyUI(fluidPage(
-  titlePanel("Lead Matching"),
+  titlePanel("Follower Matching"),
   sidebarLayout(
     sidebarPanel(
-      fileInput('file1', 'Choose CSV File',
+      fileInput('file1', 'Current Followers',
                 accept=c('text/csv', 
                          'text/comma-separated-values',
                          'text/plain', 
                          '.csv')),
-      helpText("Files must be uploaded with headers that say Engaged, Graph, and Leads. Any other headers will not work."),
+      fileInput('file2', 'Pre Insightpool Followers',
+                accept=c('text/csv', 
+                         'text/comma-separated-values',
+                         'text/plain', 
+                         '.csv')),
+      helpText("Files must be uploaded with only ONE header that is exactly twitter_handle and must be filetypes of CSV"),
       tags$hr(),
       checkboxInput('header', 'Header', TRUE),
       radioButtons('sep', 'Separator',
@@ -19,7 +24,6 @@ shinyUI(fluidPage(
                    ','),
       radioButtons('quote', 'Quote',
                    c(None='',
-                     'Double Quote'='"',
                      'Single Quote'="'"),
                    '"'),
       submitButton(text = "Go Go Baby Go"),
