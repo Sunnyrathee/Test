@@ -1,4 +1,3 @@
-setwd("/Users/brentducote/strategicinsights/shiny/vertical")
 AD <- read.csv("All_Data_04.06.csv", header=TRUE)
 # ####  FROM APP
 # goal = "CTR"
