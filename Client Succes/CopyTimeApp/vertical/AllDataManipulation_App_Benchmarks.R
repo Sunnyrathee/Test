@@ -1,4 +1,4 @@
-setwd("/Users/brentducote/strategicinsights/Benchmarks/by vertical")
+#setwd("/Users/brentducote/strategicinsights/Benchmarks/by vertical")
 AD <- read.csv("All_Data_04.06.csv", header=TRUE)
 # ####  FROM APP
 # goal = "CTR"

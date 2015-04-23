@@ -1,4 +1,4 @@
-setwd("/Users/brentducote/strategicinsights/Benchmarks/by client")
+#setwd("/Users/brentducote/strategicinsights/Benchmarks/by client")
 AD <- read.csv("All_Data_04.06.csv", header=TRUE)
 # clients <- as.matrix(unique(AD$client))
 # verticals <- as.matrix(unique(AD$vertical))
