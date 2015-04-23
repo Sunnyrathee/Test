@@ -2,7 +2,7 @@
 
 #AD <- read.csv("All_Data_03.05.csv", header=TRUE)
 #BM <- .0084
-
+AD <- read.csv("All_Data_04.06.csv", header=TRUE)
 
 clients <- as.matrix(unique(AD$client))
 clients <- sort(clients)
