@@ -1,5 +1,5 @@
 # ui.R
-AD <- read.csv("All_Data_04.06.csv", header=TRUE)
+
 #AD <- read.csv("All_Data_03.05.csv", header=TRUE)
 #BM <- .0084
 

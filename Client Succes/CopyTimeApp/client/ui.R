@@ -1,6 +1,6 @@
 #  ui.R
 # 
-AD <- read.csv("All_Data_04.06.csv", header=TRUE)
+# AD <- read.csv("../AllData_Worksheet.csv", header=TRUE)
 # BM <- .0084
 
 
@@ -23,25 +23,25 @@ shinyUI(fluidPage(
   sidebarLayout(
     sidebarPanel(
       helpText("Enter in the appropriate information below. The chart to the right will display the probability of meeting or exceeding the specified benchmark:"),
-    
+      
       selectInput("client", 
                   label = "Choose client",
                   choices = c(sort(clients), "OVERALL"),
                   selected = clients[2]),
-  
+      
       selectInput("goal", 
                   label = "Choose goal",
                   choices = c("", "Engagement Rate", "CTR"),
                   selected = "Engagement Rate"),
-            
+      
       numericInput("benchmark", 
                    label = "Enter benchmark",
                    value = .0085, step = .001),
       
       submitButton("submit")
       #actionButton("submit", label = "Submit, yo")
-            
-       ),
+      
+    ),
     
     mainPanel(
       

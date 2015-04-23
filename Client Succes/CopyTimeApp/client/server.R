@@ -1,7 +1,7 @@
 #server.R
 
 library(shiny)
-source("AllDataManipulation_App.R")
+source("AllDataManipulation_App_Benchmarks_C.R")
 
 AD <- read.csv("All_Data_04.06.csv", header=TRUE)
 
@@ -26,17 +26,18 @@ shinyServer(
       outputMatrix
     })
     output$refTable <- renderTable({
-      
-      refMatrix <- refTableFun()
-      refMatrix
+      something <- input
+      refTable <- refTableFun(something)
+      return(refTable)
+     
       
     })
     output$plot1 <- renderPlot({      
       #this code is run on submit
-      something <- input
+      something1 <- input
       cat("\n------------------START--------------------")  
       
-      punchcard <- doallthecrap1(something)
+      punchcard <- doallthecrap1(something1)
       cat("\n------------------END--------------------") 
       return(punchcard)
       
